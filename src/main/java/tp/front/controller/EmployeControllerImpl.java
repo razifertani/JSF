@@ -24,204 +24,227 @@ import tp.front.service.EmployeService;
 @ELBeanName(value = "EmployeController")
 @Join(path = "/", to = "/login.jsf")
 public class EmployeControllerImpl {
-	private static final Logger L=LogManager.getLogger(EmployeControllerImpl.class);
+    private static final Logger L = LogManager.getLogger(EmployeControllerImpl.class);
 
-	
-	private String login;
-	private String password; 
-	private Employe employe;
-	private String prenom;
-	private String nom;
-	private String email;
-	private boolean actif;
-	private List<Employe> employes;
-	private Integer employeIdToBeUpdated; // Ajouter getter et setter
-	private Employe authenticatedUser;
 
-	@Enumerated(EnumType.STRING) private Role role;
-	private Boolean loggedIn;
-	
-	@Autowired
-	EmployeService employeService;
-	
-	
-	public Role[] getRoles() { return Role.values(); }
+    private String login;
+    private String password;
+    private Employe employe;
+    private String prenom;
+    private String nom;
+    private String email;
+    private boolean actif;
+    private List<Employe> employes;
+    private Integer employeIdToBeUpdated; // Ajouter getter et setter
+    private Employe authenticatedUser;
 
-	
-	public String doLogin() {
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    private Boolean loggedIn;
 
-		String navigateTo = "null";
+    @Autowired
+    EmployeService employeService;
 
-		authenticatedUser=employeService.authenticate(login, password);
-		 if (authenticatedUser != null && authenticatedUser.getRole() ==
-		Role.ADMINISTRATEUR) {
-		navigateTo = "/admin/welcome.xhtml?faces-redirect=true";
 
-		loggedIn = true; }
+    public Role[] getRoles() {
+        return Role.values();
+    }
 
-		else {
 
-		FacesMessage facesMessage =
+    public String doLogin() {
 
-		new FacesMessage("Login Failed: please check your username/password and try again.");
+        String navigateTo = "null";
 
-		FacesContext.getCurrentInstance().addMessage("form:btn",facesMessage);
 
-		}
+        authenticatedUser = employeService.authenticate(login, password);
 
-		return navigateTo;
+        if (authenticatedUser != null && authenticatedUser.getRole() ==
+                Role.ADMINISTRATEUR) {
+            navigateTo = "/admin/welcome.xhtml?faces-redirect=true";
 
-		}
-	
-	public String doLogout() {
+            loggedIn = true;
+        } else if (authenticatedUser != null) {
+            navigateTo = "/client/welcome.xhtml?faces-redirect=true";
 
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "/login.xhtml?faces-redirect=true";
+            loggedIn = true;
+        } else {
 
-		}
-	
-	/*****crud*****/
-	public void addEmploye() {
-		Employe emp=new Employe(prenom, nom, email, actif, null);
-		L.info("zzazaezaeazzaa"+emp);
-		L.info("zzazaezaeazzaa"+employeService.ajouterEmploye(emp));
-		}
-	
-	public void test() {
-		Employe emp=new Employe(nom, prenom, email, actif, null);
+            FacesMessage facesMessage =
 
-		L.info("zzazaezaeazzaa"+emp);
+                    new FacesMessage("Login Failed: please check your username/password and try again.");
 
-		}
-	public List<Employe> getEmployes() {
-		employes = employeService.getAllEmployes();
-		return employes;
-		}
-	
-	public void removeEmploye(int employeId)
-	{
-	employeService.deleteEmployeById(employeId);
-	}
-	
+            FacesContext.getCurrentInstance().addMessage("form:btn", facesMessage);
 
-	public void displayEmploye(Employe empl)
-	{
-	this.setPrenom(empl.getPrenom());
-	this.setNom(empl.getNom());
-	this.setActif(empl.getIsActif());
-	this.setEmail(empl.getEmail());
-	this.setRole(empl.getRole());
-	this.setPassword(empl.getPassword());
-	this.setEmployeIdToBeUpdated(empl.getId().intValue());
-	}
-	
-	public void updateEmploye()
-	{ employeService.ajouterEmploye(new Employe(employeIdToBeUpdated, nom,
-	prenom, email, password, actif, role)); }
+        }
 
-	public String getLogin() {
-		return login;
-	}
+        return navigateTo;
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String doLogout() {
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
 
-	public Employe getEmploye() {
-		return employe;
-	}
+    }
 
-	public void setEmploye(Employe employe) {
-		this.employe = employe;
-	}
+    /*****crud*****/
+    public String addEmploye() {
+        Employe emp = new Employe(prenom, nom, email, actif, role);
+        L.info("zzazaezaeazzaa" + emp);
+        L.info("zzazaezaeazzaa" + employeService.ajouterEmploye(emp));
+        if (emp.getRole() == Role.ADMINISTRATEUR) {
+            return "/welcome.xhtml?faces-redirect=true";
+        } else {
+            return "/login.xhtml?faces-redirect=true";
+        }
+    }
 
-	public String getPrenom() {
-		return prenom;
-	}
+    public String goToSignup() {
+        return "/admin/register.xhtml?faces-redirect=true";
+    }
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
+    public String goToSignin() {
+        return "/login.xhtml?faces-redirect=true";
+    }
 
-	public String getNom() {
-		return nom;
-	}
+    public void test() {
+        Employe emp = new Employe(nom, prenom, email, actif, null);
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+        L.info("zzazaezaeazzaa" + emp);
 
-	public String getEmail() {
-		return email;
-	}
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public List<Employe> getEmployes() {
+        employes = employeService.getAllEmployes();
+        return employes;
+    }
 
-	public boolean isActif() {
-		return actif;
-	}
+    public void removeEmploye(int employeId) {
+        employeService.deleteEmployeById(employeId);
+    }
 
-	public void setActif(boolean actif) {
-		this.actif = actif;
-	}
 
-	public Integer getEmployeIdToBeUpdated() {
-		return employeIdToBeUpdated;
-	}
+    public void displayEmploye(Employe empl) {
+        this.setPrenom(empl.getPrenom());
+        this.setNom(empl.getNom());
+        this.setActif(empl.getIsActif());
+        this.setEmail(empl.getEmail());
+        this.setRole(empl.getRole());
+        this.setPassword(empl.getPassword());
+        this.setEmployeIdToBeUpdated(empl.getId().intValue());
+    }
 
-	public void setEmployeIdToBeUpdated(Integer employeIdToBeUpdated) {
-		this.employeIdToBeUpdated = employeIdToBeUpdated;
-	}
+    public void updateEmploye(Employe employe) {
+        System.out.println(employe.getId());
+        System.out.println(employe.getEmail());
 
-	public Role getRole() {
-		return role;
-	}
+        employeService.ajouterEmploye(employe);
+    }
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+    public String getLogin() {
+        return login;
+    }
 
-	public Boolean getLoggedIn() {
-		return loggedIn;
-	}
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-	public void setLoggedIn(Boolean loggedIn) {
-		this.loggedIn = loggedIn;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public EmployeService getEmployeService() {
-		return employeService;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setEmployeService(EmployeService employeService) {
-		this.employeService = employeService;
-	}
+    public Employe getEmploye() {
+        return employe;
+    }
 
-	public void setEmployes(List<Employe> employes) {
-		this.employes = employes;
-	}
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
 
-	public Employe getAuthenticatedUser() {
-		return authenticatedUser;
-	}
+    public String getPrenom() {
+        return prenom;
+    }
 
-	public void setAuthenticatedUser(Employe authenticatedUser) {
-		this.authenticatedUser = authenticatedUser;
-	}
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
 
-	public static Logger getL() {
-		return L;
-	}
-	
-	
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isActif() {
+        return actif;
+    }
+
+    public void setActif(boolean actif) {
+        this.actif = actif;
+    }
+
+    public Integer getEmployeIdToBeUpdated() {
+        return employeIdToBeUpdated;
+    }
+
+    public void setEmployeIdToBeUpdated(Integer employeIdToBeUpdated) {
+        this.employeIdToBeUpdated = employeIdToBeUpdated;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Boolean getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(Boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public EmployeService getEmployeService() {
+        return employeService;
+    }
+
+    public void setEmployeService(EmployeService employeService) {
+        this.employeService = employeService;
+    }
+
+    public void setEmployes(List<Employe> employes) {
+        this.employes = employes;
+    }
+
+    public Employe getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+
+    public void setAuthenticatedUser(Employe authenticatedUser) {
+        this.authenticatedUser = authenticatedUser;
+    }
+
+    public static Logger getL() {
+        return L;
+    }
+
+
 }

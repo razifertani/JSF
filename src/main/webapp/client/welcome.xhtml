@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template/template.xhtml">
+    <ui:param name="page_name" value="Accueil" />
+    <ui:define name="content">
+        <!--BEGIN : TP1 JSF Introduction Login -->
+        <h:panelGroup>
+            <h:form>
+                <h:outputText value="Bonjour #{EmployeController.authenticatedUser.prenom} #{EmployeController.authenticatedUser.nom}" />
+                |<h:commandLink value="Déconnexion" action="#{EmployeController.doLogout()}" />
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup columns="2">
+            <h:form>
+                <table>
+                    <tr><td><h:outputText value="Email"></h:outputText></td>
+                        <td><h:inputText value="#{EmployeController.authenticatedUser.email}" placeholder="Email" class="form-control mb-4 col-4"></h:inputText></td></tr>
+
+
+                    <tr><td><h:outputText value="Mot de Passe"></h:outputText></td>
+                        <td><h:inputSecret value="#{EmployeController.authenticatedUser.password}"></h:inputSecret></td></tr>
+
+                    <tr><td><h:outputText value="Nom"></h:outputText></td>
+                        <td><h:inputText value="#{EmployeController.authenticatedUser.nom}"></h:inputText></td></tr>
+
+                    <tr><td><h:outputText value="Prenom"></h:outputText></td>
+                        <td><h:inputText value="#{EmployeController.authenticatedUser.prenom}"></h:inputText></td></tr>
+
+                    <tr><td><h:outputText value="Actif / Inactif"></h:outputText></td>
+                        <td><h:selectBooleanCheckbox
+                                value="#{EmployeController.authenticatedUser.isActif}"></h:selectBooleanCheckbox></td></tr>
+
+                    <tr><td colspan="2"> <h:commandButton value="Update Employé"/></td></tr>
+                </table>
+            </h:form>
+        </h:panelGroup>
+
+</ui:define>
+</ui:composition>
