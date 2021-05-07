@@ -19,12 +19,15 @@
       crossorigin="anonymous"></link>
 
 <div class="container">
+    <hr></hr>
+    <hr></hr>
     <h2>Login </h2>
     <hr>
         <h:panelGroup columns="2">
             <h:form>
                 <tr><td><h:outputText value="Email"></h:outputText></td>
                     <td><h:inputText value="#{EmployeController.login}" placeholder="Email" class="form-control mb-4 col-4"></h:inputText></td></tr>
+
                 <tr><td><h:outputText value="Password"></h:outputText></td>
                     <td><p:password id="feedback" placeholder="Password" class="form-control mb-4 col-4" value="#{EmployeController.password}" feedback="true"/></td>
                 </tr>
@@ -32,6 +35,8 @@
                 <tr><td colspan="2"> <h:commandButton value="Login"
                                                       action="#{EmployeController.doLogin()}" class="btn btn-success col-2" /></td></tr>
 
+                <hr></hr>
+                <hr></hr>
 
                 <tr><td colspan="2"> <h:commandButton value="Add Account"
                                                       action="#{EmployeController.goToSignup()}" class="btn btn-success col-2" /></td></tr>

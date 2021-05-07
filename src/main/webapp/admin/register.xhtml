@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+<html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns="http://www.w3.org/1999/xhtml">
 <h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
     <title>Forsa tamweel's agencies</title>
 
 </h:head>
@@ -18,20 +18,57 @@
       crossorigin="anonymous"></link>
 
 <div class="container">
+    <hr></hr>
+    <hr></hr>
+
     <h2>Add new Account </h2>
     <hr>
         <h:panelGroup columns="2">
             <h:form>
-                <tr><td><h:outputText value="Name"></h:outputText></td>
-                    <td><h:inputText value="#{EmployeController.nom}" placeholder="Agency Name" class="form-control mb-4 col-4"></h:inputText></td></tr>
-                <tr><td><h:outputText value="Lastname"></h:outputText></td>
-                    <td><h:inputText value="#{EmployeController.prenom}" placeholder="Agency Name" class="form-control mb-4 col-4"></h:inputText></td></tr>
-                <tr><td><h:outputText value="Email"></h:outputText></td>
-                    <td><h:inputText value="#{EmployeController.email}" placeholder="Agency Name" class="form-control mb-4 col-4"></h:inputText></td></tr>
-                <tr><td><h:outputText value="Actif"></h:outputText></td>
-                    <td><h:inputText value="#{EmployeController.actif}" placeholder="Agency Name" class="form-control mb-4 col-4"></h:inputText></td></tr>
-                <tr><td><h:outputText value="Password"></h:outputText></td>
-                    <td><h:inputText value="#{EmployeController.password}" placeholder="Agency Name" class="form-control mb-4 col-4"></h:inputText></td></tr>
+                <tr>
+                    <td>
+                        <h:outputText value="First Name"></h:outputText>
+                    </td>
+                    <td>
+                        <h:inputText value="#{EmployeController.nom}" placeholder="First Name"
+                                     class="form-control mb-4 col-4"></h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="Lastname"></h:outputText>
+                    </td>
+                    <td>
+                        <h:inputText value="#{EmployeController.prenom}" placeholder="Last Name"
+                                     class="form-control mb-4 col-4"></h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="Email"></h:outputText>
+                    </td>
+                    <td>
+                        <h:inputText value="#{EmployeController.email}" placeholder="Email"
+                                     class="form-control mb-4 col-4"></h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="Password"></h:outputText>
+                    </td>
+                    <td>
+                        <h:inputText value="#{EmployeController.password}" placeholder="Agency Name"
+                                     class="form-control mb-4 col-4"></h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:growl id="msg"/>
+                        <p:selectBooleanCheckbox value="#{EmployeController.actif}" itemLabel="Actif / Inactif"/>
+                    </td>
+                </tr>
+
+                <hr></hr>
 
                 <div class="card">
                     <div class="ui-fluid p-formgrid p-grid">
@@ -47,9 +84,18 @@
                     </div>
                 </div>
 
-                <tr><td colspan="2"> <h:commandButton value="Add Account"
-                                                      action="#{EmployeController.goToSignin()}" class="btn btn-success col-2" /></td></tr>
+                <hr></hr>
+                <hr></hr>
 
+                <tr>
+                    <td colspan="2">
+                        <h:commandButton value="Add Account"
+                                         action="#{EmployeController.registerEmploye()}" class="btn btn-success col-2"/>
+                    </td>
+                </tr>
+
+                <hr></hr>
+                <hr></hr>
 
             </h:form>
         </h:panelGroup>

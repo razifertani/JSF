@@ -28,6 +28,18 @@ public class Employe implements Serializable {
 	private String nom;
 	private String email;
 	private String password;
+
+	public Employe(String prenom, String nom, String email, boolean actif, Role role, String password) {
+		super();
+		this.id = id;
+		this.prenom = prenom;
+		this.nom = nom;
+		this.email = email;
+		this.isActif = actif;
+		this.role = role;
+		this.password = password;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -59,7 +71,7 @@ public class Employe implements Serializable {
 	
 
 	public Employe(Long id, String prenom, String nom, String email, boolean isActif,
-			Role role) {
+			Role role, String password) {
 		super();
 		this.id = id;
 		this.prenom = prenom;
@@ -67,7 +79,8 @@ public class Employe implements Serializable {
 		this.email = email;
 		this.isActif = isActif;
 		this.role = role;
-		
+		this.password = password;
+
 	}
 
 /***********crud***/

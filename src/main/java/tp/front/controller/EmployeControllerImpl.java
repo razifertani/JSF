@@ -82,22 +82,29 @@ public class EmployeControllerImpl {
     }
 
     public String doLogout() {
-
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/login.xhtml?faces-redirect=true";
 
     }
 
     /*****crud*****/
+    public String registerEmploye() {
+        Employe emp = new Employe(prenom, nom, email, actif, role, password);
+        L.info("zzazaezaeazzaa" + emp);
+        L.info("zzazaezaeazzaa" + employeService.ajouterEmploye(emp));
+
+
+        return "/login.xhtml?faces-redirect=true";
+
+    }
+
     public String addEmploye() {
         Employe emp = new Employe(prenom, nom, email, actif, role);
         L.info("zzazaezaeazzaa" + emp);
         L.info("zzazaezaeazzaa" + employeService.ajouterEmploye(emp));
-        if (emp.getRole() == Role.ADMINISTRATEUR) {
-            return "/welcome.xhtml?faces-redirect=true";
-        } else {
-            return "/login.xhtml?faces-redirect=true";
-        }
+
+        return "/welcome.xhtml?faces-redirect=true";
+
     }
 
     public String goToSignup() {
@@ -120,8 +127,16 @@ public class EmployeControllerImpl {
         return employes;
     }
 
-    public void removeEmploye(int employeId) {
+    public String removeEmploye(int employeId) {
+        System.out.println(employeId);
         employeService.deleteEmployeById(employeId);
+        return "/welcome.xhtml?faces-redirect=true";
+    }
+
+    public String doDisableLogout(int employeId) {
+        employeService.deleteEmployeById(employeId);
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
     }
 
 
